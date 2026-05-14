@@ -1,0 +1,97 @@
+{
+  "project": "AICircularEconomyUpcyclingMarketplace",
+  "marker": "// === Batch 01 Gaps & Frontend Mounts ===",
+  "features": [
+    {
+      "slug": "agentic-upcycler-that-walks-users-from-waste-photo",
+      "component": "AgenticUpcyclerThatWalksUsersFromWastePhotoPage",
+      "label": "Agentic upcycler that walks users from waste photo \u2192 product idea \u2192 marketplace listing",
+      "endpoint": "/api/cf-agentic-upcycler-that-walks-users-from-waste-photo",
+      "kind": "cfs"
+    },
+    {
+      "slug": "rag-over-creator-tutorials-and-circular-economy-gu",
+      "component": "RagOverCreatorTutorialsAndCircularEconomyGuPage",
+      "label": "RAG over creator tutorials and circular-economy guides",
+      "endpoint": "/api/cf-rag-over-creator-tutorials-and-circular-economy-gu",
+      "kind": "cfs"
+    },
+    {
+      "slug": "real-time-impact-stream-showing-tons-diverted-and-",
+      "component": "RealTimeImpactStreamShowingTonsDivertedAndPage",
+      "label": "Real-time impact stream showing tons diverted and CO2 saved",
+      "endpoint": "/api/cf-real-time-impact-stream-showing-tons-diverted-and-",
+      "kind": "cfs"
+    },
+    {
+      "slug": "white-label-marketplace-for-municipalities-running",
+      "component": "WhiteLabelMarketplaceForMunicipalitiesRunningPage",
+      "label": "White-label marketplace for municipalities running circular-economy programs",
+      "endpoint": "/api/cf-white-label-marketplace-for-municipalities-running",
+      "kind": "cfs"
+    },
+    {
+      "slug": "frontend-has-13-themed-pages-buyermatch-materialva",
+      "component": "FrontendHas13ThemedPagesBuyermatchMaterialvaPage",
+      "label": "Frontend has 13 themed pages (BuyerMatch, MaterialValuation, PricingStrategy, etc.) but only ai.js backend",
+      "endpoint": "/api/gap-frontend-has-13-themed-pages-buyermatch-materialva",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-backend-persistence-for-any-feature-page-beyond",
+      "component": "NoBackendPersistenceForAnyFeaturePageBeyondPage",
+      "label": "No backend persistence for any feature page beyond auth",
+      "endpoint": "/api/gap-no-backend-persistence-for-any-feature-page-beyond",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-ai-model-wiring-confirmed-beyond-the-single-ai-",
+      "component": "NoAiModelWiringConfirmedBeyondTheSingleAiPage",
+      "label": "No AI model wiring confirmed beyond the single ai.js route",
+      "endpoint": "/api/gap-no-ai-model-wiring-confirmed-beyond-the-single-ai-",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-marketplace-listings-or-seller-buyer-crud-backe",
+      "component": "NoMarketplaceListingsOrSellerBuyerCrudBackePage",
+      "label": "No marketplace listings or seller/buyer CRUD backend",
+      "endpoint": "/api/gap-no-marketplace-listings-or-seller-buyer-crud-backe",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-payment-processing-and-escrow",
+      "component": "NoPaymentProcessingAndEscrowPage",
+      "label": "No payment processing and escrow",
+      "endpoint": "/api/gap-no-payment-processing-and-escrow",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-shipping-logistics-integration",
+      "component": "NoShippingLogisticsIntegrationPage",
+      "label": "No shipping/logistics integration",
+      "endpoint": "/api/gap-no-shipping-logistics-integration",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-review-and-trust-score-system",
+      "component": "NoReviewAndTrustScoreSystemPage",
+      "label": "No review and trust-score system",
+      "endpoint": "/api/gap-no-review-and-trust-score-system",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-environmental-impact-reporting-persistence",
+      "component": "NoEnvironmentalImpactReportingPersistencePage",
+      "label": "No environmental-impact reporting persistence",
+      "endpoint": "/api/gap-no-environmental-impact-reporting-persistence",
+      "kind": "gap"
+    },
+    {
+      "slug": "no-notification-system-or-webhooks",
+      "component": "NoNotificationSystemOrWebhooksPage",
+      "label": "No notification system or webhooks",
+      "endpoint": "/api/gap-no-notification-system-or-webhooks",
+      "kind": "gap"
+    }
+  ]
+}
