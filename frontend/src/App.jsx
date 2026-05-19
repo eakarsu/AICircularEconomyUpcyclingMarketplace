@@ -16,6 +16,7 @@ import PricingStrategy from './pages/PricingStrategy.jsx';
 import TrendForecast from './pages/TrendForecast.jsx';
 import SustainabilityVerify from './pages/SustainabilityVerify.jsx';
 import SellerCoach from './pages/SellerCoach.jsx';
+import CustomViewsPage from './pages/CustomViewsPage.jsx';
 
 function Sidebar() {
   const { user, logout } = useAuth();
@@ -25,6 +26,7 @@ function Sidebar() {
     <nav className="sidebar">
       <h1>Circular Economy AI</h1>
       <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>
+      <NavLink to="/custom-views" className={({ isActive }) => isActive ? 'active' : ''}>Impact Views</NavLink>
       <div style={{ marginTop: 12, fontSize: '0.75rem', textTransform: 'uppercase', color: '#9ca3af' }}>AI Tools</div>
       {TOOLS.map((t) => (
         <NavLink key={t.path} to={t.path} className={({ isActive }) => isActive ? 'active' : ''}>
@@ -66,6 +68,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<ProtectedShell><Home /></ProtectedShell>} />
+      <Route path="/custom-views" element={<ProtectedShell><CustomViewsPage /></ProtectedShell>} />
       <Route path="/tools/upcycle-idea" element={<ProtectedShell><UpcycleIdea /></ProtectedShell>} />
       <Route path="/tools/material-valuation" element={<ProtectedShell><MaterialValuation /></ProtectedShell>} />
       <Route path="/tools/listing-optimizer" element={<ProtectedShell><ListingOptimizer /></ProtectedShell>} />
