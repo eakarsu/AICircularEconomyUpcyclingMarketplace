@@ -1,17 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config({ path: '../.env' });
+require('./config/runtime').validateRuntime();
 
 const app = express();
 const PORT = process.env.BACKEND_PORT || 3001;
 
-app.use(cors());
-app.use(express.json());
+const allowedOrigins=(process.env.CORS_ORIGINS||'http://localhost:4051').split(',').map(v=>v.trim()).filter(Boolean);
+app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');res.setHeader('Referrer-Policy','no-referrer');next();});
+app.use(cors({origin:(origin,cb)=>!origin||allowedOrigins.includes(origin)?cb(null,true):cb(new Error('origin not allowed')),credentials:true}));
+app.use(express.json({limit:'1mb'}));
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/ai', require('./routes/ai'));
 app.use('/api/custom-views', require('./routes/customViews'));
 app.use('/api/material-passport-ledger', require('./routes/materialPassportLedger'));
+app.use('/api/marketplace', require('./routes/governedMarketplace'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'AICircularEconomyUpcyclingMarketplace', timestamp: new Date().toISOString() });
@@ -33,15 +37,3 @@ app.use('/api/municipality-white-label', require('./routes/municipalityWhiteLabe
 app.listen(PORT, () => {
   console.log(`AICircularEconomyUpcyclingMarketplace backend running on port ${PORT}`);
 });
-
-
-// === Batch 01 Gaps & Frontend Mounts ===
-app.use('/api/gap-frontend-has-13-themed-pages-buyermatch-materialva', require('./routes/gap_frontend_has_13_themed_pages_buyermatch_materialva'));
-app.use('/api/gap-no-backend-persistence-for-any-feature-page-beyond', require('./routes/gap_no_backend_persistence_for_any_feature_page_beyond'));
-app.use('/api/gap-no-ai-model-wiring-confirmed-beyond-the-single-ai-', require('./routes/gap_no_ai_model_wiring_confirmed_beyond_the_single_ai_'));
-app.use('/api/gap-no-marketplace-listings-or-seller-buyer-crud-backe', require('./routes/gap_no_marketplace_listings_or_seller_buyer_crud_backe'));
-app.use('/api/gap-no-payment-processing-and-escrow', require('./routes/gap_no_payment_processing_and_escrow'));
-app.use('/api/gap-no-shipping-logistics-integration', require('./routes/gap_no_shipping_logistics_integration'));
-app.use('/api/gap-no-review-and-trust-score-system', require('./routes/gap_no_review_and_trust_score_system'));
-app.use('/api/gap-no-environmental-impact-reporting-persistence', require('./routes/gap_no_environmental_impact_reporting_persistence'));
-app.use('/api/gap-no-notification-system-or-webhooks', require('./routes/gap_no_notification_system_or_webhooks'));

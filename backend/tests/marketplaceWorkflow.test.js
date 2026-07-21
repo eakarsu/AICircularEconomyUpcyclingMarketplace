@@ -1,0 +1,6 @@
+'use strict';const test=require('node:test');const assert=require('node:assert/strict');const {validateListing,transition,calculateImpact}=require('../domain/marketplaceWorkflow');
+const valid=()=>({title:'Reclaimed oak boards',sellerId:'seller-1',materials:[{catalogCode:'WOOD-OAK',weightKg:20}],condition:'reclaimed',safetyAttestations:[{type:'contaminant-screen'}],priceCents:25000,currency:'usd'});
+test('requires catalogued material weights',()=>assert.throws(()=>validateListing({...valid(),materials:[{catalogCode:'WOOD-OAK',weightKg:0}]}),/positive/));
+test('listing requires safety moderator evidence',()=>{const l=validateListing(valid());assert.throws(()=>transition('moderation','listed','seller',l,'screened and reviewed'),/moderation/);assert.equal(transition('moderation','listed','safety_officer',l,'screened against safety policy'),'listed');});
+test('funding requires verified escrow reference',()=>assert.throws(()=>transition('escrow_pending','funded','seller',validateListing(valid()),'ok'),/payment reference/));
+test('impact uses versioned complete factors',()=>{assert.equal(calculateImpact(valid().materials,{'WOOD-OAK':1.5}),30);assert.throws(()=>calculateImpact(valid().materials,{}),/missing versioned/);});
