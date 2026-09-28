@@ -40,14 +40,24 @@ export default function Login() {
         {err && <div className="error">{err}</div>}
         <button
           type="button"
-          onClick={() => { setEmail(import.meta.env.VITE_DEMO_EMAIL || ''); setPassword(import.meta.env.VITE_DEMO_PASSWORD || ''); }}
-          disabled={!import.meta.env.VITE_DEMO_EMAIL || !import.meta.env.VITE_DEMO_PASSWORD}
+          onClick={async () => {
+            setErr('');
+            try {
+              const response = await fetch('/api/auth/demo-credentials', { cache: 'no-store' });
+              const credentials = await response.json();
+              if (!response.ok) throw new Error(credentials.error || 'Demo credentials are unavailable');
+              setEmail(credentials.email);
+              setPassword(credentials.password);
+            } catch (error) {
+              setErr(error.message);
+            }
+          }}
           aria-label="Auto Fill Demo Credentials"
           style={{ width: '100%', marginBottom: '12px', padding: '10px 14px', borderRadius: '8px', border: '1px solid currentColor', background: 'transparent', cursor: 'pointer' }}
         >
           Auto Fill Demo Credentials
         </button>
-        <button className="primary" disabled={busy}>{busy ? 'Signing in...' : 'Sign in'}</button>
+        <button className="primary" disabled={busy}>{busy ? 'Signing in...' : 'Sign In'}</button>
       </form>
       <p className="muted" style={{ marginTop: 16 }}>
         No account? <Link to="/register">Register</Link>
