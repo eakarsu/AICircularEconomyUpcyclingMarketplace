@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext.jsx';
 
 export default function Login() {
+  const demoLoginLock = useRef(false);
+  const [demoLoginBusy, setDemoLoginBusy] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
@@ -10,17 +13,39 @@ export default function Login() {
   const nav = useNavigate();
   const { login } = useAuth();
 
-  async function onSubmit(e) {
-    e.preventDefault();
+  async function onSubmit(event) {
+    event.preventDefault();
     setErr('');
     setBusy(true);
     try {
       await login(email, password);
       nav('/');
-    } catch (e) {
-      setErr(e.message);
+    } catch (error) {
+      setErr(error.message);
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function onDemoLogin() {
+    if (demoLoginLock.current) return;
+    demoLoginLock.current = true;
+    setDemoLoginBusy(true);
+    setErr('');
+    try {
+      const response = await fetch('/api/auth/demo-credentials', { cache: 'no-store' });
+      const credentials = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(credentials.error || 'Demo credentials are unavailable');
+      if (typeof credentials.email !== 'string' || !credentials.email || typeof credentials.password !== 'string' || !credentials.password) throw new Error('Demo credentials are unavailable');
+      setEmail(credentials.email);
+      setPassword(credentials.password);
+      await login(credentials.email, credentials.password);
+      nav('/');
+    } catch (error) {
+      setErr(error.message);
+    } finally {
+      demoLoginLock.current = false;
+      setDemoLoginBusy(false);
     }
   }
 
@@ -40,24 +65,14 @@ export default function Login() {
         {err && <div className="error">{err}</div>}
         <button
           type="button"
-          onClick={async () => {
-            setErr('');
-            try {
-              const response = await fetch('/api/auth/demo-credentials', { cache: 'no-store' });
-              const credentials = await response.json();
-              if (!response.ok) throw new Error(credentials.error || 'Demo credentials are unavailable');
-              setEmail(credentials.email);
-              setPassword(credentials.password);
-            } catch (error) {
-              setErr(error.message);
-            }
-          }}
-          aria-label="Auto Fill Demo Credentials"
+          disabled={busy || demoLoginBusy}
+          onClick={onDemoLogin}
+          aria-label="Log in as Demo"
           style={{ width: '100%', marginBottom: '12px', padding: '10px 14px', borderRadius: '8px', border: '1px solid currentColor', background: 'transparent', cursor: 'pointer' }}
         >
-          Auto Fill Demo Credentials
+          {demoLoginBusy ? 'Logging in as Demo…' : 'Log in as Demo'}
         </button>
-        <button className="primary" disabled={busy}>{busy ? 'Signing in...' : 'Sign In'}</button>
+        <button className="primary" disabled={busy || demoLoginBusy}>{busy ? 'Signing in...' : 'Sign In'}</button>
       </form>
       <p className="muted" style={{ marginTop: 16 }}>
         No account? <Link to="/register">Register</Link>
