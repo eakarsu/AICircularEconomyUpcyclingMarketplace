@@ -16,6 +16,7 @@ app.use('/api/ai', require('./routes/ai'));
 app.use('/api/custom-views', require('./routes/customViews'));
 app.use('/api/material-passport-ledger', require('./routes/materialPassportLedger'));
 app.use('/api/marketplace', require('./routes/governedMarketplace'));
+app.use('/api/feature-pack', require('./routes/featurePack')());
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'AICircularEconomyUpcyclingMarketplace', timestamp: new Date().toISOString() });

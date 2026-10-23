@@ -12,6 +12,9 @@ export default function Login() {
   const [busy, setBusy] = useState(false);
   const nav = useNavigate();
   const { login } = useAuth();
+  const demoEmail = import.meta.env.VITE_DEMO_EMAIL;
+  const demoPassword = import.meta.env.VITE_DEMO_PASSWORD;
+  const demoConfigured = Boolean(demoEmail && demoPassword);
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -25,6 +28,16 @@ export default function Login() {
     } finally {
       setBusy(false);
     }
+  }
+
+  async function handleFillDemoCredentials() {
+    if (demoConfigured) { setEmail(demoEmail); setPassword(demoPassword); setErr(''); return; }
+    try {
+      const res = await fetch('/api/auth/demo-credentials', { cache: 'no-store' });
+      const data = await res.json().catch(() => ({}));
+      if (data && data.email && data.password) { setEmail(data.email); setPassword(data.password); setErr(''); return; }
+    } catch {}
+    setErr('Demo credentials are not configured for this environment.');
   }
 
   async function onDemoLogin() {
@@ -71,6 +84,15 @@ export default function Login() {
           style={{ width: '100%', marginBottom: '12px', padding: '10px 14px', borderRadius: '8px', border: '1px solid currentColor', background: 'transparent', cursor: 'pointer' }}
         >
           {demoLoginBusy ? 'Logging in as Demo…' : 'Log in as Demo'}
+        </button>
+        <button
+          type="button"
+          disabled={busy || demoLoginBusy}
+          onClick={handleFillDemoCredentials}
+          aria-label="Fill demo credentials"
+          style={{ width: '100%', marginBottom: '12px', padding: '10px 14px', borderRadius: '8px', border: '1px solid currentColor', background: 'transparent', cursor: 'pointer' }}
+        >
+          Fill demo credentials
         </button>
         <button className="primary" disabled={busy || demoLoginBusy}>{busy ? 'Signing in...' : 'Sign In'}</button>
       </form>
